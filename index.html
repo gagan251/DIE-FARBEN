@@ -1,0 +1,253 @@
+<title>German Color Cards</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Inter:wght@400;500;600;700&display=swap">
+<style>
+/* Layout: playful classroom page. Centered title, mode switch (cards or quiz), full-color card backs with an example object and sentence */
+:root{
+  --bg:#eaf0fa;
+  --surface:#ffffff;
+  --ink:#1d2745;
+  --muted:#657190;
+  --navy-a:#3a4876;
+  --navy-b:#1d2745;
+  --blue-a:#4a86c8;
+  --blue-b:#2d6cb0;
+  --orange:#f08a1c;
+  --good:#2f9e5b;
+  --bad:#d6453d;
+  --line:rgba(29,39,69,.14);
+  --shadow:0 8px 18px rgba(30,45,90,.14);
+  --display:'Baloo 2','Inter',system-ui,sans-serif;
+  --font:'Inter',system-ui,-apple-system,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+  --mono:ui-monospace,'SF Mono',Menlo,Consolas,monospace;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0f1523;--surface:#1a2236;--ink:#eef2fb;--muted:#a1abc6;
+    --navy-a:#42528a;--navy-b:#283362;--line:rgba(238,242,251,.18);
+    --shadow:0 8px 18px rgba(0,0,0,.5);--orange:#f5a04d;color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0f1523;--surface:#1a2236;--ink:#eef2fb;--muted:#a1abc6;
+  --navy-a:#42528a;--navy-b:#283362;--line:rgba(238,242,251,.18);
+  --shadow:0 8px 18px rgba(0,0,0,.5);--orange:#f5a04d;color-scheme:dark;
+}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--font);margin:0;padding-block:28px 56px;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.page{max-width:900px;margin:0 auto}
+header{text-align:center;margin-bottom:22px}
+h1{font-family:var(--display);font-size:clamp(30px,6vw,46px);font-weight:800;line-height:1.1;margin:0 0 10px;text-wrap:balance}
+.rainbow{display:flex;justify-content:center;gap:6px;margin:0 0 12px}
+.rainbow i{width:26px;height:8px;border-radius:4px;display:block}
+.sub{display:inline-block;font-size:14px;color:var(--muted);padding:0 14px 6px;border-bottom:3px solid var(--orange)}
+.modes{display:flex;justify-content:center;gap:10px;margin:22px 0 6px}
+.mode{font:inherit;font-weight:700;font-size:15px;border:0;border-radius:14px;padding:12px 22px;cursor:pointer;color:var(--ink);background:var(--surface);box-shadow:var(--shadow)}
+.mode[aria-pressed="true"]{color:#fff;background:linear-gradient(180deg,var(--navy-a),var(--navy-b))}
+button:focus-visible{outline:3px solid var(--blue-a);outline-offset:3px}
+.bar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin:18px 0 4px}
+.count{font-size:13px;color:var(--muted);font-variant-numeric:tabular-nums}
+.btn{font:inherit;font-size:13px;font-weight:700;color:#fff;border:0;border-radius:10px;padding:9px 16px;cursor:pointer;background:linear-gradient(180deg,var(--navy-a),var(--navy-b));box-shadow:var(--shadow)}
+.btn:hover{filter:brightness(1.12)}
+section{margin-top:26px}
+h2{font-family:var(--display);font-size:22px;font-weight:700;margin:0 0 12px;display:flex;align-items:baseline;gap:10px;flex-wrap:wrap}
+h2 span{font-family:var(--font);font-size:12px;font-weight:600;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:16px}
+.card{--c:#888;--bar:#888;--on:#fff;perspective:1000px;height:236px;border:0;padding:0;background:none;cursor:pointer;font:inherit;color:inherit;text-align:left;transition:transform .2s}
+.card:hover{transform:translateY(-4px) rotate(-.6deg)}
+.inner{position:relative;width:100%;height:100%;transition:transform .6s cubic-bezier(.3,.8,.2,1.1);transform-style:preserve-3d}
+.card.flipped .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:22px;box-shadow:var(--shadow);overflow:hidden}
+.front{border-left:8px solid var(--bar);background:linear-gradient(180deg,var(--surface) 0%,color-mix(in srgb,var(--c) 16%,var(--surface)) 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;padding:14px}
+.front .lab{position:absolute;top:14px;left:20px;font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted)}
+.de{font-family:var(--display);font-size:42px;font-weight:800;color:var(--ink);line-height:1;overflow-wrap:anywhere;text-align:center}
+.hint{font-size:12px;font-weight:600;color:var(--muted);background:var(--surface);border:1px solid var(--line);border-radius:999px;padding:5px 12px}
+.back{transform:rotateY(180deg);background:var(--c);color:var(--on);display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:16px 14px 14px;text-align:center}
+.back::before,.back::after{content:"";position:absolute;border-radius:50%;background:var(--on);opacity:.13;pointer-events:none}
+.back::before{width:150px;height:150px;right:-50px;top:-50px}
+.back::after{width:90px;height:90px;left:-30px;bottom:34px}
+.emo{font-size:54px;line-height:1;position:relative}
+.en{font-family:var(--display);font-size:30px;font-weight:800;line-height:1;position:relative}
+.hex{font-family:var(--mono);font-size:11px;font-weight:600;border:1.5px solid var(--on);border-radius:999px;padding:2px 9px;position:relative;opacity:.9}
+.ex{position:relative;width:100%;border-radius:12px;padding:8px 10px;background:rgba(255,255,255,.28);backdrop-filter:none}
+.ex.dk{background:rgba(0,0,0,.16)}
+.ex b{display:block;font-size:14px;font-weight:700}
+.ex small{display:block;font-size:11px;font-weight:500;opacity:.9;margin-top:2px}
+.quiz{display:none}
+body.quizmode .cards{display:none}
+body.quizmode .quiz{display:block}
+.qcard{background:var(--surface);border-radius:26px;box-shadow:var(--shadow);padding:22px 18px 24px;margin-top:18px;text-align:center}
+.stats{display:flex;justify-content:space-between;align-items:center;gap:10px;flex-wrap:wrap;font-weight:700;font-size:14px}
+.pill{background:var(--bg);border-radius:999px;padding:6px 14px;font-variant-numeric:tabular-nums}
+.prog{height:8px;background:var(--bg);border-radius:4px;margin:14px 0 18px;overflow:hidden}
+.prog div{height:100%;width:0;background:linear-gradient(90deg,var(--blue-a),var(--orange));border-radius:4px;transition:width .3s}
+.ask{font-family:var(--display);font-size:22px;font-weight:700;margin:0 0 14px}
+.blob{width:150px;height:150px;border-radius:38% 62% 55% 45%/50% 45% 55% 50%;margin:0 auto 18px;border:3px solid var(--line);display:flex;align-items:center;justify-content:center;font-size:64px;animation:float 3s ease-in-out infinite}
+@keyframes float{50%{transform:translateY(-6px) rotate(3deg)}}
+.opts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.opt{font:inherit;font-family:var(--display);font-size:22px;font-weight:700;border:0;border-radius:16px;padding:16px 10px;cursor:pointer;color:#fff;background:linear-gradient(180deg,var(--navy-a),var(--navy-b));box-shadow:var(--shadow);transition:transform .15s}
+.opt:hover{transform:translateY(-2px)}
+.opt.right{background:var(--good);animation:pop .4s}
+.opt.wrong{background:var(--bad);animation:shake .35s}
+.opt:disabled{cursor:default;opacity:.55}
+.opt.right:disabled,.opt.wrong:disabled{opacity:1}
+@keyframes pop{50%{transform:scale(1.07)}}
+@keyframes shake{25%{transform:translateX(-6px)}75%{transform:translateX(6px)}}
+.fb{min-height:26px;margin-top:14px;font-weight:700;font-size:16px}
+.fb.ok{color:var(--good)}.fb.no{color:var(--bad)}
+.next{margin-top:10px}
+.stars{font-size:38px;letter-spacing:4px;margin:6px 0}
+.big{font-family:var(--display);font-size:44px;font-weight:800;margin:4px 0}
+.note{margin-top:30px;font-size:12px;color:var(--muted);text-align:center}
+@media (prefers-reduced-motion:reduce){.inner,.card,.opt,.prog div{transition:none}.blob,.opt.right,.opt.wrong{animation:none}}
+@media (max-width:420px){.grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}.card{height:224px}.de{font-size:32px}.en{font-size:24px}.emo{font-size:44px}}
+</style>
+<div class="page">
+  <header>
+    <div class="rainbow" id="rainbow" aria-hidden="true"></div>
+    <h1>Die Farben</h1>
+    <span class="sub">German colors · tap a card to see the English, an object and a sentence</span>
+  </header>
+  <div class="modes">
+    <button class="mode" id="mCards" type="button" aria-pressed="true">Flashcards</button>
+    <button class="mode" id="mQuiz" type="button" aria-pressed="false">Quiz</button>
+  </div>
+
+  <div class="cards">
+    <div class="bar">
+      <span class="count" id="count" aria-live="polite"></span>
+      <button class="btn" id="all" type="button">Flip all</button>
+    </div>
+    <div id="sections"></div>
+  </div>
+
+  <div class="quiz" id="quiz"></div>
+  <p class="note">Wie heißt die Farbe? · What is the color called?</p>
+</div>
+<script>
+var groups=[
+ {n:"1.",t:"Primary colors",g:"Grundfarben",c:[
+  ["Rot","Red","#E24B4A","#E24B4A","🍎","Der Apfel ist rot.","The apple is red."],
+  ["Blau","Blue","#2F7BD6","#2F7BD6","🌊","Das Meer ist blau.","The sea is blue."],
+  ["Gelb","Yellow","#F2C41D","#F2C41D","☀️","Die Sonne ist gelb.","The sun is yellow."]]},
+ {n:"2.",t:"Mixed colors",g:"Mischfarben",c:[
+  ["Grün","Green","#3F9B4A","#3F9B4A","🐸","Der Frosch ist grün.","The frog is green."],
+  ["Orange","Orange","#F28C28","#F28C28","🍊","Die Orange ist orange.","The orange is orange."],
+  ["Lila","Purple","#7F5BD0","#7F5BD0","🍇","Die Traube ist lila.","The grape is purple."],
+  ["Rosa","Pink","#F4A6C0","#F4A6C0","🐷","Das Schwein ist rosa.","The pig is pink."],
+  ["Türkis","Turquoise","#1FB5A5","#1FB5A5","💎","Der Edelstein ist türkis.","The gemstone is turquoise."]]},
+ {n:"3.",t:"Neutral colors",g:"Neutrale Farben",c:[
+  ["Schwarz","Black","#1A1A1A","#1A1A1A","🌑","Die Nacht ist schwarz.","The night is black."],
+  ["Weiß","White","#FFFFFF","#B8C2D4","❄️","Der Schnee ist weiß.","The snow is white."],
+  ["Grau","Gray","#8A8D93","#8A8D93","☁️","Die Wolke ist grau.","The cloud is gray."],
+  ["Braun","Brown","#8B5A2B","#8B5A2B","🍫","Die Schokolade ist braun.","The chocolate is brown."]]}
+];
+var all=[];groups.forEach(function(g){g.c.forEach(function(c){all.push(c)})});
+
+function lum(h){var r=parseInt(h.substr(1,2),16),g=parseInt(h.substr(3,2),16),b=parseInt(h.substr(5,2),16);return (0.299*r+0.587*g+0.114*b)/255}
+function isLight(h){return lum(h)>0.6}
+
+var rb=document.getElementById('rainbow');
+["#E24B4A","#F28C28","#F2C41D","#3F9B4A","#1FB5A5","#2F7BD6","#7F5BD0","#F4A6C0"].forEach(function(h){var i=document.createElement('i');i.style.background=h;rb.appendChild(i)});
+
+var root=document.getElementById('sections'),total=all.length,cards=[];
+groups.forEach(function(gr){
+  var s=document.createElement('section');
+  var h=document.createElement('h2');
+  h.textContent=gr.n+' '+gr.t;
+  var sp=document.createElement('span');sp.textContent=gr.g;h.appendChild(sp);
+  s.appendChild(h);
+  var grid=document.createElement('div');grid.className='grid';
+  gr.c.forEach(function(c){
+    var light=isLight(c[2]);
+    var b=document.createElement('button');b.type='button';b.className='card';
+    b.style.setProperty('--c',c[2]);b.style.setProperty('--bar',c[3]);
+    b.style.setProperty('--on',light?'#1d2745':'#ffffff');
+    b.setAttribute('aria-label',c[0]+', tap to flip');
+    b.innerHTML='<div class="inner"><div class="face front"><span class="lab">Deutsch</span><div class="de"></div><span class="hint">Tap to flip</span></div><div class="face back"><div class="emo"></div><div class="en"></div><span class="hex"></span><div class="ex'+(light?'':'')+'"><b></b><small></small></div></div></div>';
+    b.querySelector('.de').textContent=c[0];
+    b.querySelector('.emo').textContent=c[4];
+    b.querySelector('.en').textContent=c[1];
+    b.querySelector('.hex').textContent=c[2];
+    b.querySelector('.ex b').textContent=c[5];
+    b.querySelector('.ex small').textContent=c[6];
+    if(light)b.querySelector('.ex').classList.add('dk');
+    b.addEventListener('click',function(){b.classList.toggle('flipped');update()});
+    grid.appendChild(b);cards.push(b);
+  });
+  s.appendChild(grid);root.appendChild(s);
+});
+var allBtn=document.getElementById('all');
+function update(){
+  var n=cards.filter(function(c){return c.classList.contains('flipped')}).length;
+  document.getElementById('count').textContent=n+' of '+total+' flipped to English';
+  allBtn.textContent=n===total?'Flip all back':'Flip all';
+}
+allBtn.addEventListener('click',function(){
+  var n=cards.filter(function(c){return c.classList.contains('flipped')}).length;
+  var to=n!==total;
+  cards.forEach(function(c){c.classList.toggle('flipped',to)});
+  update();
+});
+update();
+
+var qEl=document.getElementById('quiz'),order=[],qi=0,score=0,streak=0,best=0,locked=false;
+function shuffle(a){a=a.slice();for(var i=a.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=a[i];a[i]=a[j];a[j]=t}return a}
+function startQuiz(){order=shuffle(all);qi=0;score=0;streak=0;best=0;locked=false;renderQ()}
+function renderQ(){
+  if(qi>=order.length){return renderEnd()}
+  var c=order[qi];
+  var wrong=shuffle(all.filter(function(x){return x[0]!==c[0]})).slice(0,3);
+  var opts=shuffle([c].concat(wrong));
+  qEl.innerHTML='<div class="qcard"><div class="stats"><span class="pill" id="qn"></span><span class="pill" id="qs"></span><span class="pill" id="qk"></span></div><div class="prog"><div id="qp"></div></div><p class="ask">Wie heißt diese Farbe auf Deutsch?</p><div class="blob" id="qb"></div><div class="opts" id="qo"></div><div class="fb" id="qf" aria-live="polite"></div><div id="qx"></div></div>';
+  document.getElementById('qn').textContent='Question '+(qi+1)+' of '+order.length;
+  document.getElementById('qs').textContent='Score '+score;
+  document.getElementById('qk').textContent='Streak '+streak;
+  document.getElementById('qp').style.width=(qi/order.length*100)+'%';
+  var blob=document.getElementById('qb');blob.style.background=c[2];blob.textContent=c[4];
+  var box=document.getElementById('qo');
+  opts.forEach(function(o){
+    var b=document.createElement('button');b.type='button';b.className='opt';b.textContent=o[0];
+    b.addEventListener('click',function(){answer(b,o,c)});
+    box.appendChild(b);
+  });
+  locked=false;
+}
+function answer(btn,o,c){
+  if(locked)return;locked=true;
+  var fb=document.getElementById('qf');
+  var btns=document.querySelectorAll('#qo .opt');
+  if(o[0]===c[0]){
+    score++;streak++;if(streak>best)best=streak;
+    btn.classList.add('right');
+    fb.className='fb ok';fb.textContent='Richtig! '+c[0]+' = '+c[1]+'. '+c[5];
+  }else{
+    streak=0;btn.classList.add('wrong');
+    btns.forEach(function(x){if(x.textContent===c[0])x.classList.add('right')});
+    fb.className='fb no';fb.textContent='Not quite. This is '+c[0]+' ('+c[1]+').';
+  }
+  btns.forEach(function(x){x.disabled=true});
+  document.getElementById('qs').textContent='Score '+score;
+  document.getElementById('qk').textContent='Streak '+streak;
+  var nb=document.createElement('button');nb.type='button';nb.className='btn next';
+  nb.textContent=qi+1>=order.length?'See my result':'Next color';
+  nb.addEventListener('click',function(){qi++;renderQ()});
+  document.getElementById('qx').appendChild(nb);nb.focus();
+}
+function renderEnd(){
+  var pct=score/order.length;
+  var stars=pct>=0.9?3:pct>=0.6?2:1;
+  var msg=pct>=0.9?'Sehr gut!':pct>=0.6?'Gut gemacht!':'Weiter üben!';
+  var st='';for(var i=0;i<3;i++){st+=i<stars?'★':'☆'}
+  qEl.innerHTML='<div class="qcard"><div class="stars" style="color:var(--orange)" aria-label="'+stars+' of 3 stars"></div><div class="big"></div><p class="ask"></p><p class="count" id="qbest"></p><button class="btn" id="again" type="button">Play again</button></div>';
+  qEl.querySelector('.stars').textContent=st;
+  qEl.querySelector('.big').textContent=msg;
+  qEl.querySelector('.ask').textContent=score+' of '+order.length+' correct';
+  document.getElementById('qbest').textContent='Best streak: '+best;
+  document.getElementById('again').addEventListener('click',startQuiz);
+}
+var mC=document.getElementById('mCards'),mQ=document.getElementById('mQuiz');
+mC.addEventListener('click',function(){document.body.classList.remove('quizmode');mC.setAttribute('aria-pressed','true');mQ.setAttribute('aria-pressed','false')});
+mQ.addEventListener('click',function(){document.body.classList.add('quizmode');mQ.setAttribute('aria-pressed','true');mC.setAttribute('aria-pressed','false');if(!order.length)startQuiz()});
+</script>
